@@ -39,25 +39,37 @@
       // Using API for fetching weather data
 
       const apiKey = "d339eb117d307c797416e27a3ce6b46c";
-      const apiUrl = "https://api.openweathermap.org/data/2.5/weather?q=London&units=metric";
+      const apiUrl = "https://api.openweathermap.org/data/2.5/weather?units=metric&q=";
 
-      async function checkWeather() {
-        const response = await fetch(apiUrl + `&appid=${apiKey}`); //fetching the data from the API
+        //to get the weather data of a specific city, you can change the city name in the variable below
+
+      const searchBox = document.querySelector(".search input");
+      const searchBtn = document.querySelector(".search button"); //when the button is clicked the searchBox value will be passed to the checkWeather function
+
+      // You can change the city name here to get the weather of a different city
+      const city = "New York"; //default city
+      async function checkWeather(city) {
+        const response = await fetch(apiUrl + city + `&appid=${apiKey}`); //fetching the data from the API
         var data = await response.json(); //containing the data in JSON format
         console.log(data);
 
         // Updating the UI with the fetched data
         document.querySelector(".city").innerHTML = data.name; //city name
-        document.querySelector(".temp").innerHTML = data.main.temp + "°C"; //temperature
-        document.querySelector(".humidity").innerHTML = data.main.humidity + "%"; //humidity
-        
-        document.querySelector(".wind").innerHTML = data.wind.speed + " km/h"; //wind speed
+        document.querySelector(".temp").innerHTML =
+          Math.round(data.main.temp) + "°C"; //temperature
+        document.querySelector(".humidity").innerHTML =
+          data.main.humidity + "%"; //humidity
 
+        document.querySelector(".wind").innerHTML = data.wind.speed + " km/h"; //wind speed
       }
 
-      checkWeather(); // you have to call the function to execute it
+      //function to pass the value of the searchBox to the checkWeather function when the button is clicked
+      searchBtn.addEventListener("click",()=>{
+         checkWeather(searchBox.value); // you have to call the function to execute it
+      })
 
 
+     
     </script>
   </body>
 </html>
