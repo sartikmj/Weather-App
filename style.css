@@ -93,3 +93,9 @@ body{
     font-size: 28px;
     margin-top: -6px;
 }
+
+/* to hide the weather box when no city has been entered, and when the search icon is clicked
+we will change the display to block */
+.weather{
+    display:none;
+}

@@ -46,12 +46,17 @@
       const searchBox = document.querySelector(".search input");
       const searchBtn = document.querySelector(".search button"); //when the button is clicked the searchBox value will be passed to the checkWeather function
 
+      //To update the weather icon
+      const weatherIcon = document.querySelector(".weather-icon")
+
+
       // You can change the city name here to get the weather of a different city
       const city = "New York"; //default city
+
       async function checkWeather(city) {
         const response = await fetch(apiUrl + city + `&appid=${apiKey}`); //fetching the data from the API
         var data = await response.json(); //containing the data in JSON format
-        console.log(data);
+        // console.log(data);
 
         // Updating the UI with the fetched data
         document.querySelector(".city").innerHTML = data.name; //city name
@@ -61,6 +66,29 @@
           data.main.humidity + "%"; //humidity
 
         document.querySelector(".wind").innerHTML = data.wind.speed + " km/h"; //wind speed
+
+        // Updating the weather icon based on the weather condition
+        if(data.weather[0].main == "Clouds"){
+            weatherIcon.src = "images/clouds.png"; //cloudy weather icon
+        }
+        else if(data.weather[0].main == "Clear"){
+            weatherIcon.src = "images/clear.png"; //clear weather icon
+        }
+        else if(data.weather[0].main == "Rain"){
+            weatherIcon.src = "images/rain.png"; //rainy weather icon
+        }
+        else if(data.weather[0].main == "Drizzle"){
+            weatherIcon.src = "images/drizzle.png"; //drizzle weather icon
+        }
+        else if(data.weather[0].main == "Mist"){
+            weatherIcon.src = "images/mist.png"; //misty weather icon
+        }
+        else{
+            weatherIcon.src = "images/snow.png"; //snowy weather icon
+        }
+
+        //to update the display of weather card to block from none
+        document.querySelector(".weather").style.display = "block"; //displaying the weather card
       }
 
       //function to pass the value of the searchBox to the checkWeather function when the button is clicked
