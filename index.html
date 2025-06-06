@@ -12,6 +12,9 @@
         <input type="text" placeholder="Enter city name" spellcheck="false" />
         <button><img src="./images/search.png" alt="" /></button>
       </div>
+      <div class="error">
+        <p>Invalid City Name</p>
+      </div>
       <div class="weather">
         <img src="images/rain.png" class="weather-icon" />
         <h1 class="temp">22°C</h1>
@@ -55,8 +58,15 @@
 
       async function checkWeather(city) {
         const response = await fetch(apiUrl + city + `&appid=${apiKey}`); //fetching the data from the API
+
+      //checking if the response is valid or not, if user enters an invalid city name
+      if(response.status == 404){
+        //show error message, and hide the weather card
+        document.querySelector(".error").style.display = "block"; //displaying the error message
+        document.querySelector(".weather").style.display = "none"; //hiding the weather card
+      }else{
         var data = await response.json(); //containing the data in JSON format
-        // console.log(data);
+        console.log(data);
 
         // Updating the UI with the fetched data
         document.querySelector(".city").innerHTML = data.name; //city name
@@ -89,7 +99,11 @@
 
         //to update the display of weather card to block from none
         document.querySelector(".weather").style.display = "block"; //displaying the weather card
+        document.querySelector(".error").style.display = "none"; //hiding the error message
       }
+      }
+
+        
 
       //function to pass the value of the searchBox to the checkWeather function when the button is clicked
       searchBtn.addEventListener("click",()=>{
